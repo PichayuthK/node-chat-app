@@ -7,12 +7,7 @@ socket.on('connect', function () {
     //     to: 'peace@example.com',
     //     text: 'Hey. this is peace'
     // });
-
-    socket.emit('createMessage', {
-        from: 'peace',
-        text: 'this message is from peace web'    
-    });
-
+    
 });
 
 socket.on('disconnect', function () {
