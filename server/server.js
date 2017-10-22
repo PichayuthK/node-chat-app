@@ -32,9 +32,9 @@ io.on('connection', (socket) => {
     //     console.log('createEmail',newEmail);
     // });
 
-    socket.emit('newMessage', generateMessage('admin', 'welcome to the chat app'));
+    socket.emit('newMessage', generateMessage('Admin', 'welcome to the chat app'));
 
-    socket.broadcast.emit('newMessage', generateMessage('admin', 'new user joined'));
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'new user joined'));
 
     socket.on('createMessage', (message, callback) => {
         console.log('createMessage', message);
