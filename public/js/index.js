@@ -14,34 +14,42 @@ socket.on('disconnect', function () {
     console.log('Disconnected from server');
 });
 
-socket.on('newMessage', function (msg) {
-    console.log('there is new message ', msg);
+socket.on('newMessage', function (message) {
+    var formattedTime = moment(message.createdAt).format('h:mm a');
+    var template = jQuery('#message-template').html();
+    var html = Mustache.render(template,{
+        text: message.text,
+        from: message.from,
+        createdAt: formattedTime
+    });
 
-    var formattedTime = moment(msg.createdAt).format('h:mm a');
+    jQuery('#messages').append(html);
 
-    var li = jQuery('<li></li>');
-    li.text(`${msg.from} ${formattedTime}: ${msg.text}`);
 
-    jQuery('#messages').append(li);
+    // var li = jQuery('<li></li>');
+    // li.text(`${msg.from} ${formattedTime}: ${msg.text}`);
+
+    // jQuery('#messages').append(li);
 });
 
-// socket.emit('createMessage', {
-//     from: 'Krit',
-//     text: 'hi'
-// }, function (data) {
-//     console.log('got it', data);
-// });
 
 socket.on('newLocationMessage', function (message) {
-    var li = jQuery('<li></li>');
-    var a = jQuery('<a target="_blank">My current location</a>');
-
     var formattedTime = moment(message.createdAt).format('h:mm a');
+    var template = jQuery('#location-message-template').html();
+    var html = Mustache.render(template, {
+        url: message.url,
+        from:message.from,
+        createdAt: message.createdAt
+    });
 
-    li.text(`${message.from} ${formattedTime}: `);
-    a.attr('href', message.url);
-    li.append(a);
-    jQuery('#messages').append(li);
+    jQuery('#messages').append(html);
+    // var li = jQuery('<li></li>');
+    // var a = jQuery('<a target="_blank">My current location</a>');
+
+    // li.text(`${message.from} ${formattedTime}: `);
+    // a.attr('href', message.url);
+    // li.append(a);
+    // jQuery('#messages').append(li);
 });
 
 jQuery('#message-form').on('submit', function (e) {
@@ -79,4 +87,11 @@ locationButton.on('click', function () {
 
 // socket.on('newEmail', function (email) {
 //     console.log('New Email', email);
+// });
+
+// socket.emit('createMessage', {
+//     from: 'Krit',
+//     text: 'hi'
+// }, function (data) {
+//     console.log('got it', data);
 // });
